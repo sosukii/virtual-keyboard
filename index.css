@@ -1,0 +1,21 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.keyboard {
+  width: 595px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.keyboard__btn {
+  width: 35px;
+  height: 35px;
+}
+
+.keyboard__btn:hover {
+  cursor: pointer;
+}
