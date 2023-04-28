@@ -10,6 +10,8 @@
 //   console.log(keys);
 // });
 
+const bodyEl = document.querySelector('body');
+
 const arr = [
   { code: 'Backquote', keyEN: '`', keyRU: 'ё', keyCode: 192 },
   { code: 'Digit1', keyEN: '1', keyCode: 49 },
@@ -63,15 +65,47 @@ const arr = [
   { code: 'Comma', keyEN: ',', keyRU: 'б', keyCode: 188 },
   { code: 'Period', keyEN: '.', keyRU: 'ю', keyCode: 190 },
   { code: 'Slash', keyEN: '/', keyRU: '.', keyCode: 191 },
-  { code: 'ArrowUp', keyEN: 'ArrowUp', keyCode: 38 },
+  { code: 'ArrowUp', keyEN: '▲', keyCode: 38 },
   { code: 'ShiftRight', keyEN: 'Shift', keyCode: 16 },
-  { code: 'ControlLeft', keyEN: 'Control', keyCode: 17 },
-  { code: 'MetaLeft', keyEN: 'Meta', keyCode: 91 },
+  { code: 'ControlLeft', keyEN: 'Ctrl', keyCode: 17 },
+  { code: 'MetaLeft', keyEN: 'Win', keyCode: 91 },
   { code: 'AltLeft', keyEN: 'Alt', keyCode: 18 },
   { code: 'Space', keyEN: ' ', keyCode: 32 },
   { code: 'AltRight', keyEN: 'Alt', keyCode: 18 },
-  { code: 'ControlRight', keyEN: 'Control', keyCode: 17 },
-  { code: 'ArrowLeft', keyEN: 'ArrowLeft', keyCode: 37 },
-  { code: 'ArrowDown', keyEN: 'ArrowDown', keyCode: 40 },
-  { code: 'ArrowRight', keyEN: 'ArrowRight', keyCode: 39 },
+  { code: 'ArrowLeft', keyEN: '◀', keyCode: 37 },
+  { code: 'ArrowDown', keyEN: '▼', keyCode: 40 },
+  { code: 'ArrowRight', keyEN: '▶', keyCode: 39 },
+  { code: 'ControlRight', keyEN: 'Ctrl', keyCode: 17 },
 ];
+
+function renderKeyboard() {
+  const keyboard = document.createElement('div');
+  keyboard.classList.add('keyboard');
+
+  arr.forEach((e) => {
+    const button = document.createElement('button');
+    button.classList.add('keyboard__btn');
+    const is2fr =
+      e.keyCode === 8 ||
+      e.keyCode === 9 ||
+      e.keyCode === 13 ||
+      e.keyCode === 16 ||
+      e.keyCode === 20;
+
+    if (is2fr) {
+      button.style.width = '75px';
+      button.style.gridColumn = 'span 2';
+    }
+    if (e.code === 'Space') {
+      button.style.flexGrow = 1;
+    }
+
+    button.innerHTML = e.keyEN;
+
+    keyboard.appendChild(button);
+  });
+
+  bodyEl.appendChild(keyboard);
+}
+
+renderKeyboard();
