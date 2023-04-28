@@ -9,11 +9,17 @@
   display: flex;
   flex-wrap: wrap;
   gap: 5px;
+  margin: 0 auto;
 }
 
 .keyboard__btn {
   width: 35px;
   height: 35px;
+  transition: 0.5s;
+}
+
+.keyboard__btn_pressed {
+  background-color: rgb(167, 255, 140);
 }
 
 .keyboard__btn:hover {

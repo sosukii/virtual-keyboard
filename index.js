@@ -11,6 +11,7 @@
 // });
 
 const bodyEl = document.querySelector('body');
+let keyBoardEl;
 
 const arr = [
   { code: 'Backquote', keyEN: '`', keyRU: 'ё', keyCode: 192 },
@@ -101,11 +102,46 @@ function renderKeyboard() {
     }
 
     button.innerHTML = e.keyEN;
+    button.setAttribute('code', e.code);
 
     keyboard.appendChild(button);
   });
 
   bodyEl.appendChild(keyboard);
+  keyBoardEl = keyboard;
+}
+renderKeyboard();
+
+function returnPressedElement(event) {
+  const buttons = document.querySelectorAll('.keyboard__btn');
+  let pressedKey;
+  const eventCode = event.code ? event.code : event.target.getAttribute('code');
+
+  arr.forEach((e) => {
+    if (e.code === eventCode) {
+      const indexPressedBtn = arr.indexOf(e);
+      pressedKey = buttons[indexPressedBtn];
+    }
+  });
+
+  return pressedKey;
 }
 
-renderKeyboard();
+function handler(e) {
+  if (!e.target.classList.contains('keyboard__btn')) return;
+  e.preventDefault();
+
+  if (e.type === 'keydown' || e.type === 'mousedown') {
+    const keyPressed = returnPressedElement(e);
+    keyPressed.classList.add('keyboard__btn_pressed');
+  }
+  if (e.type === 'keyup' || e.type === 'mouseup') {
+    const keyPressed = returnPressedElement(e);
+    keyPressed.classList.remove('keyboard__btn_pressed');
+  }
+}
+
+document.addEventListener('keydown', handler);
+document.addEventListener('keyup', handler);
+keyBoardEl.addEventListener('mousedown', handler);
+keyBoardEl.addEventListener('mouseup', handler);
