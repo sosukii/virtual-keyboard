@@ -14,7 +14,12 @@ const bodyEl = document.querySelector('body');
 let keyBoardEl;
 
 const arr = [
-  { code: 'Backquote', keyEN: '`', keyRU: 'ё', keyCode: 192 },
+  {
+    code: 'Backquote',
+    keyEN: '`',
+    keyRU: 'ё',
+    keyCode: 192,
+  },
   { code: 'Digit1', keyEN: '1', keyCode: 49 },
   { code: 'Digit2', keyEN: '2', keyCode: 50 },
   { code: 'Digit3', keyEN: '3', keyCode: 51 },
@@ -29,43 +34,109 @@ const arr = [
   { code: 'Equal', keyEN: '=', keyCode: 187 },
   { code: 'Backspace', keyEN: 'Backspace', keyCode: 8 },
   { code: 'Tab', keyEN: 'Tab', keyCode: 9 },
-  { code: 'KeyQ', keyEN: 'q', keyRU: 'й', keyCode: 81 },
-  { code: 'KeyW', keyEN: 'w', keyRU: 'ц', keyCode: 87 },
-  { code: 'KeyE', keyEN: 'e', keyRU: 'у', keyCode: 69 },
-  { code: 'KeyR', keyEN: 'r', keyRU: 'к', keyCode: 82 },
-  { code: 'KeyT', keyEN: 't', keyRU: 'е', keyCode: 84 },
-  { code: 'KeyY', keyEN: 'y', keyRU: 'н', keyCode: 89 },
-  { code: 'KeyU', keyEN: 'u', keyRU: 'г', keyCode: 85 },
-  { code: 'KeyI', keyEN: 'i', keyRU: 'ш', keyCode: 73 },
-  { code: 'KeyO', keyEN: 'o', keyRU: 'щ', keyCode: 79 },
-  { code: 'KeyP', keyEN: 'p', keyRU: 'з', keyCode: 80 },
-  { code: 'BracketLeft', keyEN: '[', keyRU: 'х', keyCode: 219 },
-  { code: 'BracketRight', keyEN: ']', keyRU: 'ъ', keyCode: 221 },
+  {
+    code: 'KeyQ', keyEN: 'q', keyRU: 'й', keyCode: 81,
+  },
+  {
+    code: 'KeyW', keyEN: 'w', keyRU: 'ц', keyCode: 87,
+  },
+  {
+    code: 'KeyE', keyEN: 'e', keyRU: 'у', keyCode: 69,
+  },
+  {
+    code: 'KeyR', keyEN: 'r', keyRU: 'к', keyCode: 82,
+  },
+  {
+    code: 'KeyT', keyEN: 't', keyRU: 'е', keyCode: 84,
+  },
+  {
+    code: 'KeyY', keyEN: 'y', keyRU: 'н', keyCode: 89,
+  },
+  {
+    code: 'KeyU', keyEN: 'u', keyRU: 'г', keyCode: 85,
+  },
+  {
+    code: 'KeyI', keyEN: 'i', keyRU: 'ш', keyCode: 73,
+  },
+  {
+    code: 'KeyO', keyEN: 'o', keyRU: 'щ', keyCode: 79,
+  },
+  {
+    code: 'KeyP', keyEN: 'p', keyRU: 'з', keyCode: 80,
+  },
+  {
+    code: 'BracketLeft', keyEN: '[', keyRU: 'х', keyCode: 219,
+  },
+  {
+    code: 'BracketRight', keyEN: ']', keyRU: 'ъ', keyCode: 221,
+  },
   { code: 'Backslash', keyEN: '\\', keyCode: 220 },
   { code: 'CapsLock', keyEN: 'CapsLock', keyCode: 20 },
-  { code: 'KeyA', keyEN: 'a', keyRU: 'ф', keyCode: 65 },
-  { code: 'KeyS', keyEN: 's', keyRU: 'ы', keyCode: 83 },
-  { code: 'KeyD', keyEN: 'd', keyRU: 'в', keyCode: 68 },
-  { code: 'KeyF', keyEN: 'f', keyRU: 'а', keyCode: 70 },
-  { code: 'KeyG', keyEN: 'g', keyRU: 'п', keyCode: 71 },
-  { code: 'KeyH', keyEN: 'h', keyRU: 'р', keyCode: 72 },
-  { code: 'KeyJ', keyEN: 'j', keyRU: 'о', keyCode: 74 },
-  { code: 'KeyK', keyEN: 'k', keyRU: 'л', keyCode: 75 },
-  { code: 'KeyL', keyEN: 'l', keyRU: 'д', keyCode: 76 },
-  { code: 'Semicolon', keyEN: ';', keyRU: 'ж', keyCode: 186 },
-  { code: 'Quote', keyEN: "'", keyRU: 'э', keyCode: 222 },
+  {
+    code: 'KeyA', keyEN: 'a', keyRU: 'ф', keyCode: 65,
+  },
+  {
+    code: 'KeyS', keyEN: 's', keyRU: 'ы', keyCode: 83,
+  },
+  {
+    code: 'KeyD', keyEN: 'd', keyRU: 'в', keyCode: 68,
+  },
+  {
+    code: 'KeyF', keyEN: 'f', keyRU: 'а', keyCode: 70,
+  },
+  {
+    code: 'KeyG', keyEN: 'g', keyRU: 'п', keyCode: 71,
+  },
+  {
+    code: 'KeyH', keyEN: 'h', keyRU: 'р', keyCode: 72,
+  },
+  {
+    code: 'KeyJ', keyEN: 'j', keyRU: 'о', keyCode: 74,
+  },
+  {
+    code: 'KeyK', keyEN: 'k', keyRU: 'л', keyCode: 75,
+  },
+  {
+    code: 'KeyL', keyEN: 'l', keyRU: 'д', keyCode: 76,
+  },
+  {
+    code: 'Semicolon', keyEN: ';', keyRU: 'ж', keyCode: 186,
+  },
+  {
+    code: 'Quote', keyEN: "'", keyRU: 'э', keyCode: 222,
+  },
   { code: 'Enter', keyEN: 'Enter', keyCode: 13 },
   { code: 'ShiftLeft', keyEN: 'Shift', keyCode: 16 },
-  { code: 'KeyZ', keyEN: 'z', keyRU: 'я', keyCode: 90 },
-  { code: 'KeyX', keyEN: 'x', keyRU: 'ч', keyCode: 88 },
-  { code: 'KeyC', keyEN: 'c', keyRU: 'с', keyCode: 67 },
-  { code: 'KeyV', keyEN: 'v', keyRU: 'м', keyCode: 86 },
-  { code: 'KeyB', keyEN: 'b', keyRU: 'и', keyCode: 66 },
-  { code: 'KeyN', keyEN: 'n', keyRU: 'т', keyCode: 78 },
-  { code: 'KeyM', keyEN: 'm', keyRU: 'ь', keyCode: 77 },
-  { code: 'Comma', keyEN: ',', keyRU: 'б', keyCode: 188 },
-  { code: 'Period', keyEN: '.', keyRU: 'ю', keyCode: 190 },
-  { code: 'Slash', keyEN: '/', keyRU: '.', keyCode: 191 },
+  {
+    code: 'KeyZ', keyEN: 'z', keyRU: 'я', keyCode: 90,
+  },
+  {
+    code: 'KeyX', keyEN: 'x', keyRU: 'ч', keyCode: 88,
+  },
+  {
+    code: 'KeyC', keyEN: 'c', keyRU: 'с', keyCode: 67,
+  },
+  {
+    code: 'KeyV', keyEN: 'v', keyRU: 'м', keyCode: 86,
+  },
+  {
+    code: 'KeyB', keyEN: 'b', keyRU: 'и', keyCode: 66,
+  },
+  {
+    code: 'KeyN', keyEN: 'n', keyRU: 'т', keyCode: 78,
+  },
+  {
+    code: 'KeyM', keyEN: 'm', keyRU: 'ь', keyCode: 77,
+  },
+  {
+    code: 'Comma', keyEN: ',', keyRU: 'б', keyCode: 188,
+  },
+  {
+    code: 'Period', keyEN: '.', keyRU: 'ю', keyCode: 190,
+  },
+  {
+    code: 'Slash', keyEN: '/', keyRU: '.', keyCode: 191,
+  },
   { code: 'ArrowUp', keyEN: '▲', keyCode: 38 },
   { code: 'ShiftRight', keyEN: 'Shift', keyCode: 16 },
   { code: 'ControlLeft', keyEN: 'Ctrl', keyCode: 17 },
@@ -86,12 +157,11 @@ function renderKeyboard() {
   arr.forEach((e) => {
     const button = document.createElement('button');
     button.classList.add('keyboard__btn');
-    const is2fr =
-      e.keyCode === 8 ||
-      e.keyCode === 9 ||
-      e.keyCode === 13 ||
-      e.keyCode === 16 ||
-      e.keyCode === 20;
+    const is2fr = e.keyCode === 8
+      || e.keyCode === 9
+      || e.keyCode === 13
+      || e.keyCode === 16
+      || e.keyCode === 20;
 
     if (is2fr) {
       button.style.width = '75px';
@@ -128,7 +198,10 @@ function returnPressedElement(event) {
 }
 
 function handler(e) {
-  if (!e.target.classList.contains('keyboard__btn')) return;
+  const isClick = e.type === 'mousedown' || e.type === 'mouseup';
+  const isKey = e.srcElement.className.includes('keyboard__btn');
+  if (isClick && !isKey) return;
+
   e.preventDefault();
 
   if (e.type === 'keydown' || e.type === 'mousedown') {
