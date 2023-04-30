@@ -12,6 +12,8 @@
 
 const bodyEl = document.querySelector('body');
 let keyBoardEl;
+let eng;
+let isCtrlPressed = false;
 
 const arr = [
   {
@@ -157,6 +159,18 @@ const indexesOfDynamicKey = [
   46, 48, 48, 49, 50, 51,
 ];
 
+function setLocalStorage() {
+  localStorage.setItem('eng', eng);
+}
+function getLocalStorage() {
+  if (localStorage.getItem('eng')) {
+    eng = localStorage.getItem('eng');
+  } else {
+    eng = true;
+  }
+}
+getLocalStorage();
+
 function renderKeyboard() {
   const keyboard = document.createElement('div');
   keyboard.classList.add('keyboard');
@@ -178,9 +192,13 @@ function renderKeyboard() {
       button.style.flexGrow = 1;
     }
 
-    button.innerHTML = e.keyEN;
-    button.setAttribute('code', e.code);
+    if (eng === 'true') {
+      button.innerHTML = e.keyEN;
+    } else {
+      button.innerHTML = e.keyRU ? e.keyRU : e.keyEN;
+    }
 
+    button.setAttribute('code', e.code);
     keyboard.appendChild(button);
   });
 
@@ -188,7 +206,6 @@ function renderKeyboard() {
   keyBoardEl = keyboard;
 }
 renderKeyboard();
-
 function returnPressedElement(event) {
   const buttons = document.querySelectorAll('.keyboard__btn');
   let pressedKey;
@@ -204,9 +221,6 @@ function returnPressedElement(event) {
   return pressedKey;
 }
 
-let isCtrlPressed = false;
-let eng = true;
-
 function handler(e) {
   const isClick = e.type === 'mousedown' || e.type === 'mouseup';
   const isKey = e.srcElement.className.includes('keyboard__btn');
@@ -221,16 +235,18 @@ function handler(e) {
     if (isCtrlPressed && e.code === 'ShiftLeft') {
       const buttons = document.querySelectorAll('.keyboard__btn');
 
-      if (eng) {
+      if (eng === 'true') {
         indexesOfDynamicKey.forEach((i) => {
           buttons[i].innerHTML = arr[i].keyRU;
         });
-        eng = false;
+        eng = 'false';
+        setLocalStorage();
       } else {
         indexesOfDynamicKey.forEach((i) => {
           buttons[i].innerHTML = arr[i].keyEN;
         });
-        eng = true;
+        eng = 'true';
+        setLocalStorage();
       }
     }
 
@@ -245,6 +261,15 @@ function handler(e) {
     keyPressed.classList.remove('keyboard__btn_pressed');
   }
 }
+
+function renderInstruction() {
+  const text = document.createElement('p');
+  text.textContent = 'Переключить язык: Ctrl + Shift (left). ОС разработчика: windows.';
+  text.classList.add('instruction');
+
+  bodyEl.appendChild(text);
+}
+renderInstruction();
 
 document.addEventListener('keydown', handler);
 document.addEventListener('keyup', handler);
