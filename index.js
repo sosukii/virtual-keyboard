@@ -149,6 +149,13 @@ const arr = [
   { code: 'ArrowRight', keyEN: '▶', keyCode: 39 },
   { code: 'ControlRight', keyEN: 'Ctrl', keyCode: 17 },
 ];
+const indexesOfDynamicKey = [
+  0, 15, 16, 17, 18, 19, 20,
+  21, 22, 23, 24, 25, 26, 29,
+  30, 31, 32, 33, 34, 35, 36,
+  37, 38, 39, 42, 43, 44, 45,
+  46, 48, 48, 49, 50, 51,
+];
 
 function renderKeyboard() {
   const keyboard = document.createElement('div');
@@ -197,6 +204,9 @@ function returnPressedElement(event) {
   return pressedKey;
 }
 
+let isCtrlPressed = false;
+let eng = true;
+
 function handler(e) {
   const isClick = e.type === 'mousedown' || e.type === 'mouseup';
   const isKey = e.srcElement.className.includes('keyboard__btn');
@@ -205,10 +215,32 @@ function handler(e) {
   e.preventDefault();
 
   if (e.type === 'keydown' || e.type === 'mousedown') {
+    if (e.code === 'ControlLeft' && !isCtrlPressed) {
+      isCtrlPressed = true;
+    }
+    if (isCtrlPressed && e.code === 'ShiftLeft') {
+      const buttons = document.querySelectorAll('.keyboard__btn');
+
+      if (eng) {
+        indexesOfDynamicKey.forEach((i) => {
+          buttons[i].innerHTML = arr[i].keyRU;
+        });
+        eng = false;
+      } else {
+        indexesOfDynamicKey.forEach((i) => {
+          buttons[i].innerHTML = arr[i].keyEN;
+        });
+        eng = true;
+      }
+    }
+
     const keyPressed = returnPressedElement(e);
     keyPressed.classList.add('keyboard__btn_pressed');
   }
   if (e.type === 'keyup' || e.type === 'mouseup') {
+    if (e.code === 'ControlLeft') {
+      isCtrlPressed = false;
+    }
     const keyPressed = returnPressedElement(e);
     keyPressed.classList.remove('keyboard__btn_pressed');
   }
