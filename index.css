@@ -25,3 +25,8 @@
 .keyboard__btn:hover {
   cursor: pointer;
 }
+
+.instruction {
+  width: fit-content;
+  margin: 0 auto;
+}
