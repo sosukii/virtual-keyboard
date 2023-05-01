@@ -11,6 +11,7 @@
 // });
 
 const bodyEl = document.querySelector('body');
+let wrapperEL;
 let keyBoardEl;
 let areaEL;
 let eng;
@@ -104,7 +105,7 @@ const arr = [
   {
     code: 'Backslash', keyEN: '\\', shiftEN: '|', shiftRU: '/', keyCode: 220,
   },
-  { code: 'CapsLock', keyEN: 'CapsLock', keyCode: 20 },
+  { code: 'CapsLock', keyEN: 'Caps', keyCode: 20 },
   {
     code: 'KeyA', keyEN: 'a', keyRU: 'ф', shiftEN: 'A', shiftRU: 'Ф', keyCode: 65,
   },
@@ -205,6 +206,14 @@ function getLocalStorage() {
 }
 getLocalStorage();
 
+function renderWrapper() {
+  const wrapper = document.createElement('div');
+  wrapper.classList.add('wrapper');
+
+  bodyEl.appendChild(wrapper);
+  wrapperEL = wrapper;
+}
+renderWrapper();
 function renderKeyboard() {
   const keyboard = document.createElement('div');
   keyboard.classList.add('keyboard');
@@ -236,7 +245,7 @@ function renderKeyboard() {
     keyboard.appendChild(button);
   });
 
-  bodyEl.appendChild(keyboard);
+  wrapperEL.appendChild(keyboard);
   keyBoardEl = keyboard;
 }
 renderKeyboard();
@@ -268,9 +277,15 @@ function print(event) {
     }
   });
 
+  const shouldUseInnerText = pressedKey.getAttribute('code') === 'Digit7'
+                          || pressedKey.getAttribute('code') === 'Comma'
+                          || pressedKey.getAttribute('code') === 'Period';
+
   if (!notPrintableKeys.includes(pressedKeyIndex)) {
     if (isCapsPressed) {
       areaEL.value += pressedKey.innerHTML.toUpperCase();
+    } else if (shouldUseInnerText) {
+      areaEL.value += pressedKey.innerText;
     } else {
       areaEL.value += pressedKey.innerHTML;
     }
@@ -385,14 +400,14 @@ function renderInstruction() {
   text.textContent = 'Переключить язык: левые Ctrl + Alt. ОС разработчика: windows.';
   text.classList.add('instruction');
 
-  bodyEl.appendChild(text);
+  wrapperEL.appendChild(text);
 }
 renderInstruction();
 
 function renderTextarea() {
   const area = document.createElement('textarea');
   area.classList.add('area');
-  bodyEl.prepend(area);
+  wrapperEL.prepend(area);
   areaEL = area;
 }
 renderTextarea();
