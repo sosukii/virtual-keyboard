@@ -12,8 +12,10 @@
 
 const bodyEl = document.querySelector('body');
 let keyBoardEl;
+let areaEL;
 let eng;
 let isCtrlPressed = false;
+let isCapsPressed = false;
 
 const arr = [
   {
@@ -156,7 +158,10 @@ const indexesOfDynamicKey = [
   21, 22, 23, 24, 25, 26, 29,
   30, 31, 32, 33, 34, 35, 36,
   37, 38, 39, 42, 43, 44, 45,
-  46, 48, 48, 49, 50, 51,
+  46, 47, 48, 49, 50, 51,
+];
+const notPrintableKeys = [
+  13, 14, 28, 40, 41, 52, 53, 54, 55, 56, 58, 59, 60, 61, 62,
 ];
 
 function setLocalStorage() {
@@ -221,14 +226,44 @@ function returnPressedElement(event) {
   return pressedKey;
 }
 
+function print(event) {
+  const buttons = document.querySelectorAll('.keyboard__btn');
+  let pressedKey;
+  let pressedKeyIndex;
+  const eventCode = event.code ? event.code : event.target.getAttribute('code');
+
+  arr.forEach((e) => {
+    if (e.code === eventCode) {
+      pressedKeyIndex = arr.indexOf(e);
+      pressedKey = buttons[pressedKeyIndex];
+    }
+  });
+
+  if (!notPrintableKeys.includes(pressedKeyIndex)) {
+    if (isCapsPressed) {
+      areaEL.value += pressedKey.innerHTML.toUpperCase();
+    } else {
+      areaEL.value += pressedKey.innerHTML;
+    }
+  }
+}
+function removeLastCharacter() {
+  areaEL.value = areaEL.value.substring(0, areaEL.value.length - 1);
+}
+
 function handler(e) {
   const isClick = e.type === 'mousedown' || e.type === 'mouseup';
   const isKey = e.srcElement.className.includes('keyboard__btn');
+  const isRemoveBtn = e.code === 'Backspace';
+  const isCapsBtn = e.code === 'CapsLock';
+
   if (isClick && !isKey) return;
 
   e.preventDefault();
 
   if (e.type === 'keydown' || e.type === 'mousedown') {
+    if (isRemoveBtn) removeLastCharacter();
+
     if (e.code === 'ControlLeft' && !isCtrlPressed) {
       isCtrlPressed = true;
     }
@@ -249,6 +284,13 @@ function handler(e) {
         setLocalStorage();
       }
     }
+    if (isCapsBtn) {
+      if (isCapsPressed === true) {
+        isCapsPressed = false;
+      } else {
+        isCapsPressed = true;
+      }
+    }
 
     const keyPressed = returnPressedElement(e);
     keyPressed.classList.add('keyboard__btn_pressed');
@@ -259,6 +301,7 @@ function handler(e) {
     }
     const keyPressed = returnPressedElement(e);
     keyPressed.classList.remove('keyboard__btn_pressed');
+    print(e);
   }
 }
 
@@ -270,6 +313,14 @@ function renderInstruction() {
   bodyEl.appendChild(text);
 }
 renderInstruction();
+
+function renderTextarea() {
+  const area = document.createElement('textarea');
+  area.classList.add('area');
+  bodyEl.prepend(area);
+  areaEL = area;
+}
+renderTextarea();
 
 document.addEventListener('keydown', handler);
 document.addEventListener('keyup', handler);
