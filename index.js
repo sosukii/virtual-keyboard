@@ -191,7 +191,7 @@ const indexesOfDynamicKey = [
   46, 47, 48, 49, 50, 51,
 ];
 const notPrintableKeys = [
-  13, 14, 28, 40, 41, 52, 53, 54, 55, 56, 58, 59, 60, 61, 62,
+  13, 14, 28, 40, 41, 53, 54, 55, 56, 58, 62,
 ];
 
 function setLocalStorage() {
@@ -281,11 +281,18 @@ function print(event) {
                           || pressedKey.getAttribute('code') === 'Comma'
                           || pressedKey.getAttribute('code') === 'Period';
 
+  const shouldUseTextContent = pressedKey.getAttribute('code') === 'ArrowUp'
+                          || pressedKey.getAttribute('code') === 'ArrowDown'
+                          || pressedKey.getAttribute('code') === 'ArrowLeft'
+                          || pressedKey.getAttribute('code') === 'ArrowRight';
+
   if (!notPrintableKeys.includes(pressedKeyIndex)) {
     if (isCapsPressed) {
       areaEL.value += pressedKey.innerHTML.toUpperCase();
     } else if (shouldUseInnerText) {
       areaEL.value += pressedKey.innerText;
+    } else if (shouldUseTextContent) {
+      areaEL.value += pressedKey.textContent;
     } else {
       areaEL.value += pressedKey.innerHTML;
     }
@@ -300,7 +307,7 @@ function handler(e) {
   const isKey = e.srcElement.className.includes('keyboard__btn');
   const isRemoveBtn = e.code === 'Backspace';
   const isCapsBtn = e.code === 'CapsLock';
-  const isShiftBtn = e.code === 'ShiftLeft';
+  const isShiftBtn = e.code === 'ShiftLeft' || e.code === 'ShiftRight';
   const isAltPressed = e.code === 'AltLeft' || e.code === 'AltRight';
 
   if (isClick && !isKey) return;
