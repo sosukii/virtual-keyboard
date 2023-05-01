@@ -268,9 +268,15 @@ function print(event) {
     }
   });
 
+  const shouldUseInnerText = pressedKey.getAttribute('code') === 'Digit7'
+                          || pressedKey.getAttribute('code') === 'Comma'
+                          || pressedKey.getAttribute('code') === 'Period';
+
   if (!notPrintableKeys.includes(pressedKeyIndex)) {
     if (isCapsPressed) {
       areaEL.value += pressedKey.innerHTML.toUpperCase();
+    } else if (shouldUseInnerText) {
+      areaEL.value += pressedKey.innerText;
     } else {
       areaEL.value += pressedKey.innerHTML;
     }
