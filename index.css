@@ -30,3 +30,10 @@
   width: fit-content;
   margin: 0 auto;
 }
+
+.area {
+  width: 595px;
+  height: 135px;
+  margin: 0 auto;
+  display: block;
+}
