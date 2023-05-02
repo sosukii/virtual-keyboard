@@ -1,20 +1,10 @@
-// const keys = [];
-
-// document.addEventListener('keydown', (event) => {
-//   const obj = {};
-//   obj.code = event.code;
-//   obj.key = event.key;
-//   obj.keyCode = event.keyCode;
-
-//   keys.push(obj);
-//   console.log(keys);
-// });
-
 const bodyEl = document.querySelector('body');
 let wrapperEL;
 let keyBoardEl;
 let areaEL;
+
 let eng;
+let cursorPosition = 0;
 let isCtrlPressed = false;
 let isCapsPressed = false;
 let isShiftPressed = false;
@@ -191,7 +181,7 @@ const indexesOfDynamicKey = [
   46, 47, 48, 49, 50, 51,
 ];
 const notPrintableKeys = [
-  13, 14, 28, 40, 41, 53, 54, 55, 56, 58, 62,
+  13, 28, 41, 53, 54, 55, 56, 58, 62,
 ];
 
 function setLocalStorage() {
@@ -264,6 +254,17 @@ function returnPressedElement(event) {
   return pressedKey;
 }
 
+function removeCharacter() {
+  const firstPart = areaEL.value.substring(0, cursorPosition - 1);
+  const secondPart = areaEL.value.slice(cursorPosition);
+  areaEL.value = firstPart.concat(secondPart);
+}
+
+function goOnNewLine() {
+  const firstPart = areaEL.value.substring(0, cursorPosition - 1).concat('\n');
+  const secondPart = areaEL.value.slice(cursorPosition - 1);
+  areaEL.value = firstPart.concat(secondPart);
+}
 function print(event) {
   const buttons = document.querySelectorAll('.keyboard__btn');
   let pressedKey;
@@ -286,26 +287,38 @@ function print(event) {
                           || pressedKey.getAttribute('code') === 'ArrowLeft'
                           || pressedKey.getAttribute('code') === 'ArrowRight';
 
+  const shouldNewLine = pressedKey.getAttribute('code') === 'Enter';
+
+  const isTabBtn = pressedKey.getAttribute('code') === 'Tab';
+
   if (!notPrintableKeys.includes(pressedKeyIndex)) {
-    if (isCapsPressed) {
-      areaEL.value += pressedKey.innerHTML.toUpperCase();
+    cursorPosition += 1;
+    const firstPart = areaEL.value.substring(0, cursorPosition - 1).concat();
+    const secondPart = areaEL.value.slice(cursorPosition - 1);
+
+    if (isTabBtn) {
+      areaEL.value = firstPart.concat('    ').concat(secondPart);
+      cursorPosition += 3;
+    } else if (isCapsPressed) {
+      areaEL.value = firstPart.concat(pressedKey.innerHTML.toUpperCase()).concat(secondPart);
     } else if (shouldUseInnerText) {
-      areaEL.value += pressedKey.innerText;
+      areaEL.value = firstPart.concat(pressedKey.innerText).concat(secondPart);
     } else if (shouldUseTextContent) {
-      areaEL.value += pressedKey.textContent;
+      areaEL.value = firstPart.concat(pressedKey.textContent).concat(secondPart);
+    } else if (shouldNewLine) {
+      goOnNewLine();
     } else {
-      areaEL.value += pressedKey.innerHTML;
+      areaEL.value = firstPart.concat(pressedKey.innerHTML).concat(secondPart);
     }
   }
-}
-function removeLastCharacter() {
-  areaEL.value = areaEL.value.substring(0, areaEL.value.length - 1);
+  areaEL.selectionStart = cursorPosition;
+  areaEL.selectionEnd = cursorPosition;
 }
 
 function handler(e) {
   const isClick = e.type === 'mousedown' || e.type === 'mouseup';
   const isKey = e.srcElement.className.includes('keyboard__btn');
-  const isRemoveBtn = e.code === 'Backspace';
+  const isRemoveBtn = e.code === 'Backspace' || e.target.innerHTML === 'Backspace';
   const isCapsBtn = e.code === 'CapsLock';
   const isShiftBtn = e.code === 'ShiftLeft' || e.code === 'ShiftRight';
   const isAltPressed = e.code === 'AltLeft' || e.code === 'AltRight';
@@ -315,7 +328,10 @@ function handler(e) {
   e.preventDefault();
 
   if (e.type === 'keydown' || e.type === 'mousedown') {
-    if (isRemoveBtn) removeLastCharacter();
+    if (isRemoveBtn) {
+      removeCharacter();
+      cursorPosition -= 1;
+    }
 
     // show shift values -----------------------------------------
     if (isShiftBtn && !isShiftPressed) {
@@ -419,7 +435,12 @@ function renderTextarea() {
 }
 renderTextarea();
 
+function setCursor() {
+  cursorPosition = areaEL.selectionStart;
+}
+
 document.addEventListener('keydown', handler);
 document.addEventListener('keyup', handler);
 keyBoardEl.addEventListener('mousedown', handler);
 keyBoardEl.addEventListener('mouseup', handler);
+areaEL.addEventListener('mouseup', setCursor);
