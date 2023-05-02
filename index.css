@@ -1,0 +1,109 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding-top: 50px;
+}
+
+.keyboard {
+  width: 595px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin: 0 auto;
+}
+
+/* button style START ------------------------- */
+
+.keyboard__btn {
+  width: 35px;
+  height: 35px;
+  transition: 0.5s;
+
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  vertical-align: middle;
+  text-decoration: none;
+  font-size: inherit;
+  font-family: inherit;
+
+  font-weight: 600;
+  color: #382b22;
+  background: #fff0f0;
+  border: 2px solid #b18597;
+  border-radius: 0.75em;
+  transition: transform 0.15s;
+  transform-style: preserve-3d;
+}
+
+.keyboard__btn::before {
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #f9c4d2;
+  border-radius: inherit;
+  box-shadow: 0 0 0 2px #b18597, 0 0.625em 0 0 #ffe3e2;
+  transform: translate3d(0, 0.75em, -1em);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.keyboard__btn:hover {
+  cursor: pointer;
+  background: #ffe9e9;
+  transform: translate(0, 0.25em);
+}
+
+.keyboard__btn:hover::before {
+  box-shadow: 0 0 0 2px #b18597, 0 0.5em 0 0 #ffe3e2;
+  transform: translate3d(0, 0.5em, -1em);
+}
+
+.keyboard__btn:active {
+  background: #ffe9e9;
+  transform: translate(0em, 0.75em);
+}
+
+.keyboard__btn:active::before {
+  box-shadow: 0 0 0 2px #b18597, 0 0 #ffe3e2;
+  transform: translate3d(0, 0, -1em);
+}
+
+.instruction {
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.keyboard__btn_pressed {
+  background: #ffe9e9;
+  transform: translate(0em, 0.75em);
+}
+.keyboard__btn_pressed::before{
+  box-shadow: 0 0 0 2px #b18597, 0 0 #ffe3e2;
+  transform: translate3d(0, 0, -1em);
+}
+
+/* button style END ------------------------- */
+
+.area {
+  width: 595px;
+  height: 135px;
+  margin: 0 auto;
+  display: block;
+  border-radius: 15px;
+  padding: 10px;
+  box-shadow: 0 0 0 2px #b18597, 0 0 #ffe3e2;
+}
